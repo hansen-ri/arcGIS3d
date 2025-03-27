@@ -1,47 +1,43 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+// import Map from './components/Map.vue';
+import { computed, ref } from 'vue';
+
+const shapes = ref([]);
+
+// Convert to string so it can be passed as a prop
+const shapesJson = computed(() => JSON.stringify(shapes.value));
+
+function handleShapeSave(event) {
+  const newShape = event.detail;
+  console.log("New or updated shape:", newShape);
+  shapes.value.push(newShape);
+
+  // Optionally persist to localStorage or a backend
+  // localStorage.setItem('savedShapes', JSON.stringify(shapes.value));
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    <!-- <Map/> -->
+    <my-sketch-3d :sketch="shapesJson" @shape-save="handleShapeSave">
+    </my-sketch-3d>
   </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+main {
+  height: 100%;
+  width: 100%;
 }
 </style>
